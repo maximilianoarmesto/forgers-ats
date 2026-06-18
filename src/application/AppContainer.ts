@@ -1,6 +1,9 @@
 import { CreateCandidate } from './use-cases/CreateCandidate';
 import { MoveCandidateStage } from './use-cases/MoveCandidateStage';
 import { ListCandidates } from './use-cases/ListCandidates';
+import { GetCandidate } from './use-cases/GetCandidate';
+import { UpdateCandidate } from './use-cases/UpdateCandidate';
+import { TokenVerifier } from './ports/TokenVerifier';
 
 /**
  * AppContainer — the application-facing contract describing the set of ready
@@ -14,27 +17,43 @@ export interface AppContainer {
   createCandidate: CreateCandidate;
   moveCandidateStage: MoveCandidateStage;
   listCandidates: ListCandidates;
+  getCandidate: GetCandidate;
+  updateCandidate: UpdateCandidate;
+  tokenVerifier: TokenVerifier;
 }
 
 /**
  * The composition root (infrastructure) registers its factory here at process
  * startup. Interfaces then resolve the container without importing
  * infrastructure directly.
+ *
+ * The registration is stored on `globalThis` rather than in a plain module
+ * variable because Next.js may evaluate this module in more than one server
+ * bundle (e.g. the instrumentation hook vs. route handlers). A module-level
+ * singleton would not be shared across those bundles; a global one is.
  */
-let factory: (() => AppContainer) | undefined;
-let cached: AppContainer | undefined;
+interface ContainerRegistry {
+  factory?: () => AppContainer;
+  cached?: AppContainer;
+}
+
+const globalRef = globalThis as typeof globalThis & {
+  __forgersAtsContainer?: ContainerRegistry;
+};
+
+const registry: ContainerRegistry = (globalRef.__forgersAtsContainer ??= {});
 
 export function registerContainerFactory(fn: () => AppContainer): void {
-  factory = fn;
+  registry.factory = fn;
 }
 
 export function resolveContainer(): AppContainer {
-  if (cached) return cached;
-  if (!factory) {
+  if (registry.cached) return registry.cached;
+  if (!registry.factory) {
     throw new Error(
       'AppContainer factory not registered. Ensure the composition root is loaded at startup.',
     );
   }
-  cached = factory();
-  return cached;
+  registry.cached = registry.factory();
+  return registry.cached;
 }

@@ -85,6 +85,31 @@ export class Candidate {
     this.props.updatedAt = now;
   }
 
+  /**
+   * Update the candidate's full name, re-validating the invariant.
+   */
+  rename(fullName: string, now: Date = new Date()): void {
+    this.props.fullName = Candidate.validateName(fullName);
+    this.props.updatedAt = now;
+  }
+
+  /**
+   * Update the candidate's job title, re-validating the invariant.
+   */
+  changeJobTitle(jobTitle: string, now: Date = new Date()): void {
+    this.props.jobTitle = Candidate.validateName(jobTitle);
+    this.props.updatedAt = now;
+  }
+
+  /**
+   * Update the candidate's email. The Email VO enforces its own format
+   * invariant; uniqueness across candidates is an application-level concern.
+   */
+  changeEmail(email: string, now: Date = new Date()): void {
+    this.props.email = Email.create(email);
+    this.props.updatedAt = now;
+  }
+
   get id(): string {
     return this.props.id;
   }

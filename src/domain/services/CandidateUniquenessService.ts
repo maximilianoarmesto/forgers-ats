@@ -14,4 +14,13 @@ export class CandidateUniquenessService {
     const existing = await this.candidates.findByEmail(email);
     return existing === null;
   }
+
+  /**
+   * Like {@link isEmailAvailable}, but ignores a candidate's own record so an
+   * existing candidate can be updated without colliding with itself.
+   */
+  async isEmailAvailableForUpdate(email: Email, candidateId: string): Promise<boolean> {
+    const existing = await this.candidates.findByEmail(email);
+    return existing === null || existing.id === candidateId;
+  }
 }

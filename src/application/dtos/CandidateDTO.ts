@@ -23,3 +23,10 @@ export interface MoveCandidateStageInput {
   candidateId: string;
   targetStage: string;
 }
+
+export interface UpdateCandidateInput {
+  candidateId: string;
+  fullName?: string;
+  email?: string;
+  jobTitle?: string;
+}

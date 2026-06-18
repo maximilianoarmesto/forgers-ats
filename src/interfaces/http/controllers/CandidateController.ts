@@ -3,6 +3,7 @@ import { CandidateDTO } from '@/application/dtos/CandidateDTO';
 import {
   createCandidateSchema,
   moveStageSchema,
+  updateCandidateSchema,
 } from '../validation/candidateSchemas';
 import { mapErrorToHttp } from '../errors';
 
@@ -41,10 +42,33 @@ export class CandidateController {
     }
   }
 
-  async moveStage(
-    candidateId: string,
-    rawBody: unknown,
-  ): Promise<ControllerResult<CandidateDTO>> {
+  async get(candidateId: string): Promise<ControllerResult<CandidateDTO>> {
+    try {
+      const dto = await resolveContainer().getCandidate.execute(candidateId);
+      return { status: 200, body: dto };
+    } catch (error) {
+      return mapErrorToHttp(error);
+    }
+  }
+
+  async update(candidateId: string, rawBody: unknown): Promise<ControllerResult<CandidateDTO>> {
+    const parsed = updateCandidateSchema.safeParse(rawBody);
+    if (!parsed.success) {
+      return { status: 400, body: { error: parsed.error.message } };
+    }
+
+    try {
+      const dto = await resolveContainer().updateCandidate.execute({
+        candidateId,
+        ...parsed.data,
+      });
+      return { status: 200, body: dto };
+    } catch (error) {
+      return mapErrorToHttp(error);
+    }
+  }
+
+  async moveStage(candidateId: string, rawBody: unknown): Promise<ControllerResult<CandidateDTO>> {
     const parsed = moveStageSchema.safeParse(rawBody);
     if (!parsed.success) {
       return { status: 400, body: { error: parsed.error.message } };
