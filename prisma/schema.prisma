@@ -1,0 +1,33 @@
+// Prisma schema for Forgers ATS
+// Note: Prisma models live in the infrastructure concern. Domain entities are
+// mapped to/from these models inside src/infrastructure repositories.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CandidateStage {
+  APPLIED
+  SCREENING
+  INTERVIEW
+  OFFER
+  HIRED
+  REJECTED
+}
+
+model Candidate {
+  id        String         @id @default(uuid())
+  fullName  String
+  email     String         @unique
+  stage     CandidateStage @default(APPLIED)
+  jobTitle  String
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@map("candidates")
+}
