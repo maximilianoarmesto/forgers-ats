@@ -26,3 +26,15 @@ export class InvalidStageTransitionError extends DomainError {
     super(`Cannot move candidate from stage "${from}" to "${to}".`);
   }
 }
+
+export class InvalidLinkedInUrlError extends DomainError {
+  constructor(value: string) {
+    super(`Invalid LinkedIn profile URL: "${value}".`);
+  }
+}
+
+export class InvalidResumeFileError extends DomainError {
+  constructor(reason: string) {
+    super(`Invalid résumé file: ${reason}`);
+  }
+}

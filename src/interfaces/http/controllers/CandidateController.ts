@@ -1,5 +1,5 @@
 import { resolveContainer } from '@/application/AppContainer';
-import { CandidateDTO } from '@/application/dtos/CandidateDTO';
+import { CandidateDTO, ResumeContentDTO, UploadedResumeDTO } from '@/application/dtos/CandidateDTO';
 import {
   createCandidateSchema,
   moveStageSchema,
@@ -62,6 +62,28 @@ export class CandidateController {
         candidateId,
         ...parsed.data,
       });
+      return { status: 200, body: dto };
+    } catch (error) {
+      return mapErrorToHttp(error);
+    }
+  }
+
+  async uploadResume(file: {
+    data: Uint8Array;
+    fileName: string;
+    contentType: string;
+  }): Promise<ControllerResult<UploadedResumeDTO>> {
+    try {
+      const dto = await resolveContainer().uploadResume.execute(file);
+      return { status: 201, body: dto };
+    } catch (error) {
+      return mapErrorToHttp(error);
+    }
+  }
+
+  async getResume(candidateId: string): Promise<ControllerResult<ResumeContentDTO>> {
+    try {
+      const dto = await resolveContainer().getCandidateResume.execute(candidateId);
       return { status: 200, body: dto };
     } catch (error) {
       return mapErrorToHttp(error);

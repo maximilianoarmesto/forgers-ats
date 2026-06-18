@@ -1,6 +1,16 @@
 import { Email } from '../value-objects/Email';
 import { CandidateStage, Stage } from '../value-objects/CandidateStage';
+import { LinkedInUrl } from '../value-objects/LinkedInUrl';
 import { InvalidCandidateNameError } from '../errors/DomainError';
+
+/**
+ * A stored reference to an uploaded résumé: the opaque storage key plus the
+ * original file name (kept for display/download).
+ */
+export interface ResumeReference {
+  key: string;
+  fileName: string;
+}
 
 export interface CandidateProps {
   id: string;
@@ -8,6 +18,8 @@ export interface CandidateProps {
   email: Email;
   stage: CandidateStage;
   jobTitle: string;
+  linkedInUrl: LinkedInUrl | null;
+  resume: ResumeReference | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -28,6 +40,8 @@ export class Candidate {
     fullName: string;
     email: string;
     jobTitle: string;
+    linkedInUrl?: string | null;
+    resume?: ResumeReference | null;
     now?: Date;
   }): Candidate {
     const fullName = Candidate.validateName(params.fullName);
@@ -40,6 +54,8 @@ export class Candidate {
       email: Email.create(params.email),
       stage: CandidateStage.initial(),
       jobTitle,
+      linkedInUrl: params.linkedInUrl ? LinkedInUrl.create(params.linkedInUrl) : null,
+      resume: params.resume ?? null,
       createdAt: now,
       updatedAt: now,
     });
@@ -54,6 +70,9 @@ export class Candidate {
     email: string;
     stage: Stage;
     jobTitle: string;
+    linkedInUrl?: string | null;
+    resumeKey?: string | null;
+    resumeFileName?: string | null;
     createdAt: Date;
     updatedAt: Date;
   }): Candidate {
@@ -63,6 +82,11 @@ export class Candidate {
       email: Email.create(props.email),
       stage: CandidateStage.from(props.stage),
       jobTitle: props.jobTitle,
+      linkedInUrl: props.linkedInUrl ? LinkedInUrl.create(props.linkedInUrl) : null,
+      resume:
+        props.resumeKey && props.resumeFileName
+          ? { key: props.resumeKey, fileName: props.resumeFileName }
+          : null,
       createdAt: props.createdAt,
       updatedAt: props.updatedAt,
     });
@@ -110,6 +134,32 @@ export class Candidate {
     this.props.updatedAt = now;
   }
 
+  /**
+   * Set or clear the candidate's LinkedIn profile link. Passing null/empty
+   * removes it; the LinkedInUrl VO enforces the format invariant.
+   */
+  changeLinkedInUrl(url: string | null, now: Date = new Date()): void {
+    const trimmed = url?.trim() ?? '';
+    this.props.linkedInUrl = trimmed.length > 0 ? LinkedInUrl.create(trimmed) : null;
+    this.props.updatedAt = now;
+  }
+
+  /**
+   * Attach (or replace) the candidate's résumé reference.
+   */
+  attachResume(resume: ResumeReference, now: Date = new Date()): void {
+    this.props.resume = resume;
+    this.props.updatedAt = now;
+  }
+
+  /**
+   * Remove the candidate's résumé reference, if any.
+   */
+  removeResume(now: Date = new Date()): void {
+    this.props.resume = null;
+    this.props.updatedAt = now;
+  }
+
   get id(): string {
     return this.props.id;
   }
@@ -128,6 +178,14 @@ export class Candidate {
 
   get jobTitle(): string {
     return this.props.jobTitle;
+  }
+
+  get linkedInUrl(): LinkedInUrl | null {
+    return this.props.linkedInUrl;
+  }
+
+  get resume(): ResumeReference | null {
+    return this.props.resume;
   }
 
   get createdAt(): Date {

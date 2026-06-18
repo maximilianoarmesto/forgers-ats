@@ -37,7 +37,13 @@ next-env.d.ts.bak
 /prisma/*.db
 /prisma/*.db-journal
 
+# uploaded files (résumés, etc.)
+/storage
+
 # IDE
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# playwright MCP output
+/.playwright-mcp

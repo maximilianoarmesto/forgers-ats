@@ -36,6 +36,9 @@ export class PrismaCandidateRepository implements CandidateRepository {
       email: candidate.email.toString(),
       stage: candidate.stage.toString() as PrismaCandidate['stage'],
       jobTitle: candidate.jobTitle,
+      linkedinUrl: candidate.linkedInUrl ? candidate.linkedInUrl.toString() : null,
+      resumeKey: candidate.resume ? candidate.resume.key : null,
+      resumeFileName: candidate.resume ? candidate.resume.fileName : null,
       createdAt: candidate.createdAt,
       updatedAt: candidate.updatedAt,
     };
@@ -54,6 +57,9 @@ export class PrismaCandidateRepository implements CandidateRepository {
       email: row.email,
       stage: row.stage as Stage,
       jobTitle: row.jobTitle,
+      linkedInUrl: row.linkedinUrl,
+      resumeKey: row.resumeKey,
+      resumeFileName: row.resumeFileName,
       createdAt: row.createdAt,
       updatedAt: row.updatedAt,
     });

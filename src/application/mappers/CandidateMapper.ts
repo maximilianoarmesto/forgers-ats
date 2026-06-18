@@ -13,6 +13,9 @@ export class CandidateMapper {
       email: candidate.email.toString(),
       stage: candidate.stage.toString(),
       jobTitle: candidate.jobTitle,
+      linkedInUrl: candidate.linkedInUrl ? candidate.linkedInUrl.toString() : null,
+      resumeFileName: candidate.resume ? candidate.resume.fileName : null,
+      hasResume: candidate.resume !== null,
       createdAt: candidate.createdAt.toISOString(),
       updatedAt: candidate.updatedAt.toISOString(),
     };

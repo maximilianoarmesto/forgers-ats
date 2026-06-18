@@ -33,6 +33,8 @@ export class CreateCandidate {
       fullName: input.fullName,
       email: input.email,
       jobTitle: input.jobTitle,
+      linkedInUrl: input.linkedInUrl ?? null,
+      resume: input.resume ?? null,
     });
 
     await this.candidates.save(candidate);

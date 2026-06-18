@@ -23,7 +23,13 @@ export class UpdateCandidate {
   ) {}
 
   async execute(input: UpdateCandidateInput): Promise<CandidateDTO> {
-    if (input.fullName === undefined && input.email === undefined && input.jobTitle === undefined) {
+    if (
+      input.fullName === undefined &&
+      input.email === undefined &&
+      input.jobTitle === undefined &&
+      input.linkedInUrl === undefined &&
+      input.resume === undefined
+    ) {
       throw new ValidationError('No fields provided to update.');
     }
 
@@ -47,6 +53,18 @@ export class UpdateCandidate {
 
     if (input.jobTitle !== undefined) {
       candidate.changeJobTitle(input.jobTitle);
+    }
+
+    if (input.linkedInUrl !== undefined) {
+      candidate.changeLinkedInUrl(input.linkedInUrl);
+    }
+
+    if (input.resume !== undefined) {
+      if (input.resume === null) {
+        candidate.removeResume();
+      } else {
+        candidate.attachResume(input.resume);
+      }
     }
 
     await this.candidates.save(candidate);

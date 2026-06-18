@@ -27,6 +27,14 @@ export class CandidateNotFoundError extends ApplicationError {
   }
 }
 
+export class ResumeNotFoundError extends ApplicationError {
+  readonly code = 'NOT_FOUND';
+
+  constructor(candidateId: string) {
+    super(`No résumé found for candidate: ${candidateId}.`);
+  }
+}
+
 export class EmailAlreadyInUseError extends ApplicationError {
   readonly code = 'EMAIL_IN_USE';
 
