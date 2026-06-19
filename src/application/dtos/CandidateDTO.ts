@@ -11,6 +11,8 @@ export interface CandidateDTO {
   jobTitle: string;
   linkedInUrl: string | null;
   resumeFileName: string | null;
+  /** Retrievable URL for the candidate's résumé, or null if none is attached. */
+  resumeUrl: string | null;
   hasResume: boolean;
   createdAt: string;
   updatedAt: string;

@@ -127,7 +127,7 @@ export function CandidateForm({ mode, candidate }: CandidateFormProps): JSX.Elem
       <div style={styles.field}>
         <ResumeUpload
           initialFileName={candidate?.resumeFileName ?? null}
-          viewHref={mode === 'edit' && candidate?.hasResume ? `/resumes/${candidate.id}` : null}
+          viewHref={mode === 'edit' ? (candidate?.resumeUrl ?? null) : null}
           onChange={setResume}
         />
       </div>

@@ -34,6 +34,9 @@ export function ResumeUpload({
   const [fileName, setFileName] = useState<string | null>(initialFileName ?? null);
   // Whether a résumé is currently attached after edits in this session.
   const [hasResume, setHasResume] = useState<boolean>(Boolean(initialFileName));
+  // Retrievable URL of a file uploaded in this session (takes precedence over
+  // the existing candidate-scoped link once the user replaces the résumé).
+  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
 
   async function handleFile(file: File): Promise<void> {
     const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
@@ -65,6 +68,7 @@ export function ResumeUpload({
     setFileName(result.fileName);
     setMessage(`Uploaded ${result.fileName}`);
     setHasResume(true);
+    setUploadedUrl(result.url ?? null);
     onChange({ key: result.key, fileName: result.fileName });
   }
 
@@ -73,9 +77,13 @@ export function ResumeUpload({
     setMessage('');
     setFileName(null);
     setHasResume(false);
+    setUploadedUrl(null);
     if (inputRef.current) inputRef.current.value = '';
     onChange(null);
   }
+
+  // Prefer the just-uploaded file's URL; fall back to the existing résumé link.
+  const effectiveViewHref = uploadedUrl ?? viewHref ?? null;
 
   const statusColor =
     status === 'error' ? colors.danger : status === 'success' ? colors.success : colors.muted;
@@ -95,8 +103,8 @@ export function ResumeUpload({
           }}
         >
           <span aria-label="attached résumé">📄 {fileName}</span>
-          {viewHref ? (
-            <a href={viewHref} target="_blank" rel="noopener noreferrer" style={styles.link}>
+          {effectiveViewHref ? (
+            <a href={effectiveViewHref} target="_blank" rel="noopener noreferrer" style={styles.link}>
               View
             </a>
           ) : null}

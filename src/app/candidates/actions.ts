@@ -26,6 +26,8 @@ export interface UploadResult {
   error?: string;
   key?: string;
   fileName?: string;
+  /** Retrievable URL for the just-uploaded file (served by /resumes/file/:key). */
+  url?: string;
 }
 
 export interface CandidateFormValues {
@@ -101,5 +103,10 @@ export async function uploadResumeAction(formData: FormData): Promise<UploadResu
   }
 
   const dto = result.body as UploadedResumeDTO;
-  return { ok: true, key: dto.key, fileName: dto.fileName };
+  return {
+    ok: true,
+    key: dto.key,
+    fileName: dto.fileName,
+    url: `/resumes/file/${encodeURIComponent(dto.key)}`,
+  };
 }

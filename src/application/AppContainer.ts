@@ -5,6 +5,7 @@ import { GetCandidate } from './use-cases/GetCandidate';
 import { UpdateCandidate } from './use-cases/UpdateCandidate';
 import { UploadResume } from './use-cases/UploadResume';
 import { GetCandidateResume } from './use-cases/GetCandidateResume';
+import { GetStoredResume } from './use-cases/GetStoredResume';
 import { TokenVerifier } from './ports/TokenVerifier';
 
 /**
@@ -23,6 +24,7 @@ export interface AppContainer {
   updateCandidate: UpdateCandidate;
   uploadResume: UploadResume;
   getCandidateResume: GetCandidateResume;
+  getStoredResume: GetStoredResume;
   tokenVerifier: TokenVerifier;
 }
 

@@ -7,6 +7,7 @@ import { GetCandidate } from '@/application/use-cases/GetCandidate';
 import { UpdateCandidate } from '@/application/use-cases/UpdateCandidate';
 import { UploadResume } from '@/application/use-cases/UploadResume';
 import { GetCandidateResume } from '@/application/use-cases/GetCandidateResume';
+import { GetStoredResume } from '@/application/use-cases/GetStoredResume';
 import { prisma } from '../persistence/prisma/PrismaClient';
 import { PrismaCandidateRepository } from '../persistence/prisma/PrismaCandidateRepository';
 import { UuidGenerator } from '../id/UuidGenerator';
@@ -44,6 +45,7 @@ function build(): AppContainer {
     updateCandidate: new UpdateCandidate(candidateRepository, uniqueness),
     uploadResume: new UploadResume(fileStorage),
     getCandidateResume: new GetCandidateResume(candidateRepository, fileStorage),
+    getStoredResume: new GetStoredResume(fileStorage),
     tokenVerifier,
   };
 }

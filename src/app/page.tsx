@@ -105,9 +105,9 @@ export default async function HomePage(): Promise<JSX.Element> {
                     )}
                   </td>
                   <td style={td}>
-                    {c.hasResume ? (
+                    {c.resumeUrl ? (
                       <a
-                        href={`/resumes/${c.id}`}
+                        href={c.resumeUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         style={styles.link}

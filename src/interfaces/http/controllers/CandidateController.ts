@@ -90,6 +90,15 @@ export class CandidateController {
     }
   }
 
+  async getStoredResume(key: string): Promise<ControllerResult<ResumeContentDTO>> {
+    try {
+      const dto = await resolveContainer().getStoredResume.execute(key);
+      return { status: 200, body: dto };
+    } catch (error) {
+      return mapErrorToHttp(error);
+    }
+  }
+
   async moveStage(candidateId: string, rawBody: unknown): Promise<ControllerResult<CandidateDTO>> {
     const parsed = moveStageSchema.safeParse(rawBody);
     if (!parsed.success) {

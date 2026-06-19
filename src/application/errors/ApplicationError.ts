@@ -30,8 +30,8 @@ export class CandidateNotFoundError extends ApplicationError {
 export class ResumeNotFoundError extends ApplicationError {
   readonly code = 'NOT_FOUND';
 
-  constructor(candidateId: string) {
-    super(`No résumé found for candidate: ${candidateId}.`);
+  constructor(ref: string) {
+    super(`No résumé found: ${ref}.`);
   }
 }
 
