@@ -5,7 +5,7 @@
 
 export interface CandidateDTO {
   id: string;
-  fullName: string;
+  name: string;
   email: string;
   stage: string;
   jobTitle: string;
@@ -25,7 +25,7 @@ export interface ResumeReferenceInput {
 }
 
 export interface CreateCandidateInput {
-  fullName: string;
+  name: string;
   email: string;
   jobTitle: string;
   linkedInUrl?: string | null;
@@ -39,7 +39,7 @@ export interface MoveCandidateStageInput {
 
 export interface UpdateCandidateInput {
   candidateId: string;
-  fullName?: string;
+  name?: string;
   email?: string;
   jobTitle?: string;
   linkedInUrl?: string | null;

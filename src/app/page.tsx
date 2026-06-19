@@ -74,7 +74,7 @@ export default async function HomePage(): Promise<JSX.Element> {
             <tbody>
               {candidates.map((c) => (
                 <tr key={c.id} style={{ borderTop: `1px solid ${colors.border}` }}>
-                  <td style={{ ...td, fontWeight: 600 }}>{c.fullName}</td>
+                  <td style={{ ...td, fontWeight: 600 }}>{c.name}</td>
                   <td style={td}>{c.email}</td>
                   <td style={td}>{c.jobTitle}</td>
                   <td style={td}>

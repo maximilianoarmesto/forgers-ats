@@ -22,8 +22,9 @@ enum CandidateStage {
 
 model Candidate {
   id             String         @id @default(uuid())
-  fullName       String
+  name           String
   email          String         @unique
+  phone          String?
   stage          CandidateStage @default(APPLIED)
   jobTitle       String
   linkedinUrl    String?

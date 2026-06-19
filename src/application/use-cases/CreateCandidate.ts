@@ -30,7 +30,7 @@ export class CreateCandidate {
 
     const candidate = Candidate.create({
       id: this.ids.generate(),
-      fullName: input.fullName,
+      name: input.name,
       email: input.email,
       jobTitle: input.jobTitle,
       linkedInUrl: input.linkedInUrl ?? null,

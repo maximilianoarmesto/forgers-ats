@@ -32,7 +32,7 @@ export class PrismaCandidateRepository implements CandidateRepository {
 
   async save(candidate: Candidate): Promise<void> {
     const data = {
-      fullName: candidate.fullName,
+      name: candidate.name,
       email: candidate.email.toString(),
       stage: candidate.stage.toString() as PrismaCandidate['stage'],
       jobTitle: candidate.jobTitle,
@@ -53,7 +53,7 @@ export class PrismaCandidateRepository implements CandidateRepository {
   private static toDomain(row: PrismaCandidate): Candidate {
     return Candidate.rehydrate({
       id: row.id,
-      fullName: row.fullName,
+      name: row.name,
       email: row.email,
       stage: row.stage as Stage,
       jobTitle: row.jobTitle,

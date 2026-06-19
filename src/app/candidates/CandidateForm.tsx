@@ -16,7 +16,7 @@ interface CandidateFormProps {
 }
 
 interface FieldErrors {
-  fullName?: string;
+  name?: string;
   email?: string;
   jobTitle?: string;
   linkedInUrl?: string;
@@ -25,7 +25,7 @@ interface FieldErrors {
 export function CandidateForm({ mode, candidate }: CandidateFormProps): JSX.Element {
   const router = useRouter();
 
-  const [fullName, setFullName] = useState(candidate?.fullName ?? '');
+  const [name, setName] = useState(candidate?.name ?? '');
   const [email, setEmail] = useState(candidate?.email ?? '');
   const [jobTitle, setJobTitle] = useState(candidate?.jobTitle ?? '');
   const [linkedInUrl, setLinkedInUrl] = useState(candidate?.linkedInUrl ?? '');
@@ -38,7 +38,7 @@ export function CandidateForm({ mode, candidate }: CandidateFormProps): JSX.Elem
 
   function validate(): FieldErrors {
     const next: FieldErrors = {};
-    if (fullName.trim().length < 2) next.fullName = 'Full name is required.';
+    if (name.trim().length < 2) next.name = 'Full name is required.';
     if (email.trim().length === 0) next.email = 'Email is required.';
     else if (!EMAIL_PATTERN.test(email.trim())) next.email = 'Enter a valid email address.';
     if (jobTitle.trim().length === 0) next.jobTitle = 'Job title is required.';
@@ -56,7 +56,7 @@ export function CandidateForm({ mode, candidate }: CandidateFormProps): JSX.Elem
     if (Object.keys(validationErrors).length > 0) return;
 
     const values: CandidateFormValues = {
-      fullName: fullName.trim(),
+      name: name.trim(),
       email: email.trim(),
       jobTitle: jobTitle.trim(),
       linkedInUrl: linkedInUrl.trim(),
@@ -81,13 +81,13 @@ export function CandidateForm({ mode, candidate }: CandidateFormProps): JSX.Elem
 
   return (
     <form onSubmit={handleSubmit} style={styles.card} noValidate>
-      <Field label="Full name" error={errors.fullName} htmlFor="fullName" required>
+      <Field label="Full name" error={errors.name} htmlFor="name" required>
         <input
-          id="fullName"
-          style={{ ...styles.input, ...(errors.fullName ? styles.inputError : {}) }}
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          aria-invalid={Boolean(errors.fullName)}
+          id="name"
+          style={{ ...styles.input, ...(errors.name ? styles.inputError : {}) }}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          aria-invalid={Boolean(errors.name)}
         />
       </Field>
 

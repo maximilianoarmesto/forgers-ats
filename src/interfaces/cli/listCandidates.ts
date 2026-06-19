@@ -21,7 +21,7 @@ async function main(): Promise<void> {
 
   for (const c of candidates) {
     // eslint-disable-next-line no-console
-    console.warn(`- [${c.stage}] ${c.fullName} <${c.email}> — ${c.jobTitle}`);
+    console.warn(`- [${c.stage}] ${c.name} <${c.email}> — ${c.jobTitle}`);
   }
 }
 

@@ -29,7 +29,7 @@ export interface UploadResult {
 }
 
 export interface CandidateFormValues {
-  fullName: string;
+  name: string;
   email: string;
   jobTitle: string;
   linkedInUrl: string;
@@ -45,7 +45,7 @@ function errorMessage(body: unknown): string {
 
 export async function createCandidateAction(values: CandidateFormValues): Promise<MutationResult> {
   const result = await candidateController.create({
-    fullName: values.fullName,
+    name: values.name,
     email: values.email,
     jobTitle: values.jobTitle,
     linkedInUrl: values.linkedInUrl,
@@ -65,7 +65,7 @@ export async function updateCandidateAction(
   values: CandidateFormValues,
 ): Promise<MutationResult> {
   const result = await candidateController.update(id, {
-    fullName: values.fullName,
+    name: values.name,
     email: values.email,
     jobTitle: values.jobTitle,
     linkedInUrl: values.linkedInUrl,

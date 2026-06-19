@@ -14,7 +14,7 @@ export interface ResumeReference {
 
 export interface CandidateProps {
   id: string;
-  fullName: string;
+  name: string;
   email: Email;
   stage: CandidateStage;
   jobTitle: string;
@@ -37,20 +37,20 @@ export class Candidate {
    */
   static create(params: {
     id: string;
-    fullName: string;
+    name: string;
     email: string;
     jobTitle: string;
     linkedInUrl?: string | null;
     resume?: ResumeReference | null;
     now?: Date;
   }): Candidate {
-    const fullName = Candidate.validateName(params.fullName);
+    const name = Candidate.validateName(params.name);
     const jobTitle = Candidate.validateName(params.jobTitle);
     const now = params.now ?? new Date();
 
     return new Candidate({
       id: params.id,
-      fullName,
+      name,
       email: Email.create(params.email),
       stage: CandidateStage.initial(),
       jobTitle,
@@ -66,7 +66,7 @@ export class Candidate {
    */
   static rehydrate(props: {
     id: string;
-    fullName: string;
+    name: string;
     email: string;
     stage: Stage;
     jobTitle: string;
@@ -78,7 +78,7 @@ export class Candidate {
   }): Candidate {
     return new Candidate({
       id: props.id,
-      fullName: props.fullName,
+      name: props.name,
       email: Email.create(props.email),
       stage: CandidateStage.from(props.stage),
       jobTitle: props.jobTitle,
@@ -110,10 +110,10 @@ export class Candidate {
   }
 
   /**
-   * Update the candidate's full name, re-validating the invariant.
+   * Update the candidate's name, re-validating the invariant.
    */
-  rename(fullName: string, now: Date = new Date()): void {
-    this.props.fullName = Candidate.validateName(fullName);
+  rename(name: string, now: Date = new Date()): void {
+    this.props.name = Candidate.validateName(name);
     this.props.updatedAt = now;
   }
 
@@ -164,8 +164,8 @@ export class Candidate {
     return this.props.id;
   }
 
-  get fullName(): string {
-    return this.props.fullName;
+  get name(): string {
+    return this.props.name;
   }
 
   get email(): Email {

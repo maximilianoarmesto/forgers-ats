@@ -10,7 +10,7 @@ import {
 } from '../errors/ApplicationError';
 
 /**
- * Use Case: update an existing candidate's editable fields (full name, email,
+ * Use Case: update an existing candidate's editable fields (name, email,
  * job title). Applies a partial update — only the provided fields change.
  * Changing the email re-enforces the cross-candidate uniqueness rule while
  * allowing the candidate to keep its own address. Field-level invariants are
@@ -24,7 +24,7 @@ export class UpdateCandidate {
 
   async execute(input: UpdateCandidateInput): Promise<CandidateDTO> {
     if (
-      input.fullName === undefined &&
+      input.name === undefined &&
       input.email === undefined &&
       input.jobTitle === undefined &&
       input.linkedInUrl === undefined &&
@@ -47,8 +47,8 @@ export class UpdateCandidate {
       candidate.changeEmail(input.email);
     }
 
-    if (input.fullName !== undefined) {
-      candidate.rename(input.fullName);
+    if (input.name !== undefined) {
+      candidate.rename(input.name);
     }
 
     if (input.jobTitle !== undefined) {

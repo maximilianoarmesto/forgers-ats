@@ -13,7 +13,7 @@ export const resumeReferenceSchema = z.object({
 });
 
 export const createCandidateSchema = z.object({
-  fullName: z.string().min(1, 'fullName is required'),
+  name: z.string().min(1, 'name is required'),
   email: z.string().min(1, 'email is required').email('email must be a valid email address'),
   jobTitle: z.string().min(1, 'jobTitle is required'),
   // Optional; an empty string is treated as "no LinkedIn profile".
@@ -31,7 +31,7 @@ export const moveStageSchema = z.object({
  */
 export const updateCandidateSchema = z
   .object({
-    fullName: z.string().min(1, 'fullName cannot be empty').optional(),
+    name: z.string().min(1, 'name cannot be empty').optional(),
     email: z
       .string()
       .min(1, 'email cannot be empty')
@@ -43,7 +43,7 @@ export const updateCandidateSchema = z
   })
   .refine(
     (data) =>
-      data.fullName !== undefined ||
+      data.name !== undefined ||
       data.email !== undefined ||
       data.jobTitle !== undefined ||
       data.linkedInUrl !== undefined ||

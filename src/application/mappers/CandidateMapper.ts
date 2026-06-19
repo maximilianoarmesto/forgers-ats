@@ -9,7 +9,7 @@ export class CandidateMapper {
   static toDTO(candidate: Candidate): CandidateDTO {
     return {
       id: candidate.id,
-      fullName: candidate.fullName,
+      name: candidate.name,
       email: candidate.email.toString(),
       stage: candidate.stage.toString(),
       jobTitle: candidate.jobTitle,

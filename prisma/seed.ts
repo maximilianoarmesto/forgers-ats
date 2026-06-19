@@ -7,7 +7,7 @@ async function main(): Promise<void> {
     where: { email: 'ada.lovelace@example.com' },
     update: {},
     create: {
-      fullName: 'Ada Lovelace',
+      name: 'Ada Lovelace',
       email: 'ada.lovelace@example.com',
       jobTitle: 'Senior Software Engineer',
       stage: CandidateStage.INTERVIEW,
@@ -18,7 +18,7 @@ async function main(): Promise<void> {
     where: { email: 'alan.turing@example.com' },
     update: {},
     create: {
-      fullName: 'Alan Turing',
+      name: 'Alan Turing',
       email: 'alan.turing@example.com',
       jobTitle: 'Machine Learning Engineer',
       stage: CandidateStage.APPLIED,
