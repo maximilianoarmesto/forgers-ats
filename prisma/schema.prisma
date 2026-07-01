@@ -11,6 +11,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum RoleStatus {
+  OPEN
+  CLOSED
+  ON_HOLD
+}
+
 enum CandidateStage {
   APPLIED
   SCREENING
@@ -34,4 +40,17 @@ model Candidate {
   updatedAt      DateTime       @updatedAt
 
   @@map("candidates")
+}
+
+model Role {
+  id             String     @id @default(uuid())
+  title          String
+  jobDescription String
+  location       String
+  company        String
+  status         RoleStatus @default(OPEN)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  @@map("roles")
 }
